@@ -25,6 +25,9 @@ def count_uniq_combination_lattice(arr, num):
     if len(arr) < num:
         return 0
 
+    if num == 0:
+        return 1
+
     # どの数字が何回現れているか
     # Counter([1, 2, 3, 4, 5, 3, 5, 5]) => {1: 1, 2: 1, 3: 2, 4: 1, 5: 3}
     number_counter = Counter(arr)

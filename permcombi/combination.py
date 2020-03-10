@@ -30,7 +30,7 @@ def count_uniq_combination_lattice(arr, num):
     number_counter = Counter(arr)
     # numよりも大きいものは、numにする
     number_counter = {n: min(c, num) for n, c in number_counter.items()}
-    arr_count = reduce(add, number_counter.values())
+    arr_len = reduce(add, number_counter.values())
     # 出現回数はそれぞれ何回現れているか
     # Counter({1: 1, 2: 1, 3: 2, 4: 1, 5: 3}.values())
     # => Counter([1, 1, 2, 1, 3]) => {1: 3, 2: 1, 3: 1}
@@ -39,7 +39,7 @@ def count_uniq_combination_lattice(arr, num):
 
     # 格子の作成
     # 格子のx方向の長さ
-    lattice_x_len = arr_count - num + 1
+    lattice_x_len = arr_len - num + 1
     # 組み合わせ数を格納する配列(lattice_x_len, (num + 1) の格子)
     lattice = [[0] * (num + 1) for i in range(lattice_x_len)]
     # 原点

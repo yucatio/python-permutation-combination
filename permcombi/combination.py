@@ -1,6 +1,7 @@
 from itertools import combinations
 from collections import Counter
 from functools import reduce
+from operator import add
 
 
 def cmb(n, r):
@@ -21,9 +22,15 @@ def count_uniq_combination_simple(in_arr, num):
 
 
 def count_uniq_combination_lattice(arr, num):
+    if len(arr) < num:
+        return 0
+
     # どの数字が何回現れているか
     # Counter([1, 2, 3, 4, 5, 3, 5, 5]) => {1: 1, 2: 1, 3: 2, 4: 1, 5: 3}
     number_counter = Counter(arr)
+    # numよりも大きいものは、numにする
+    number_counter = {n: min(c, num) for n, c in number_counter.items()}
+    arr_count = reduce(add, number_counter.values())
     # 出現回数はそれぞれ何回現れているか
     # Counter({1: 1, 2: 1, 3: 2, 4: 1, 5: 3}.values())
     # => Counter([1, 1, 2, 1, 3]) => {1: 3, 2: 1, 3: 1}
@@ -32,7 +39,7 @@ def count_uniq_combination_lattice(arr, num):
 
     # 格子の作成
     # 格子のx方向の長さ
-    lattice_x_len = len(arr) - num + 1
+    lattice_x_len = arr_count - num + 1
     # 組み合わせ数を格納する配列(lattice_x_len, (num + 1) の格子)
     lattice = [[0] * (num + 1) for i in range(lattice_x_len)]
     # 原点
@@ -49,6 +56,7 @@ def count_uniq_combination_lattice(arr, num):
 
     del count_counter[1]
     # print(lattice)
+
     for duplication, count in count_counter.items():
         for i in range(count):
             step += duplication
